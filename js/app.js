@@ -87,6 +87,24 @@
     return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
   }
 
+  /* Respaldo: si el servidor no responde, el registro sale por correo y nadie se pierde */
+  var CORREO = 'rrii.fcj@uagrm.edu.bo';
+  function respaldoCorreo() {
+    var areas = Array.prototype.map.call(document.querySelectorAll('input[name=areas]:checked'), function (x) { return x.value; }).join('; ');
+    var lineas = [
+      'Registro: Becas SI Suecia 2027/2028', '',
+      'Nombre: ' + $('nombre').value, 'CI: ' + $('ci').value, 'Correo: ' + $('correo').value, 'Celular: ' + $('celular').value,
+      'Vínculo: ' + $('vinculo').value, 'Unidad: ' + $('unidad').value, 'Grado: ' + $('grado').value, 'Título: ' + $('titulo').value,
+      'Experiencia laboral: ' + $('anios').value, 'Inglés: ' + $('ingles').value, 'Áreas: ' + areas,
+      'Liderazgo: ' + $('liderazgo').value, 'Consulta: ' + $('comentario').value, '',
+      '(Adjunto mi CV en PDF)'
+    ];
+    var href = 'mailto:' + CORREO + '?subject=' + encodeURIComponent('Registro Becas Suecia: ' + $('nombre').value) + '&body=' + encodeURIComponent(lineas.join('\n'));
+    estado.className = 'estado error';
+    estado.innerHTML = 'El servidor no respondió. Para no perder tu registro, envíalo por correo: tus datos ya están escritos, <b>solo adjunta tu CV en PDF</b> antes de enviar.<br><a class="boton rojo" style="margin-top:10px" target="_blank" rel="noopener"></a>';
+    var a = estado.querySelector('a'); a.href = href; a.textContent = 'Enviar mi registro por correo a ' + CORREO;
+  }
+
   $('formulario').addEventListener('submit', async function (e) {
     e.preventDefault();
     var form = this;
@@ -101,7 +119,7 @@
     if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) { avisar('error', 'El CV debe ser un archivo PDF.'); return; }
     if (f.size > MAX) { avisar('error', 'Tu CV pesa más de 5 MB. Comprímelo o expórtalo de nuevo en PDF y vuelve a intentarlo.'); return; }
     if (!$('consentimiento').checked) { avisar('error', 'Marca la casilla de autorización para enviar.'); $('consentimiento').focus(); return; }
-    if (!sb) { avisar('error', 'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.'); return; }
+    if (!sb) { respaldoCorreo(); return; }
 
     var boton = $('enviar'); boton.disabled = true; boton.textContent = 'Enviando...';
     avisar('info', 'Subiendo tu CV, no cierres esta página.');
@@ -124,7 +142,7 @@
       avisar('ok', '¡Registro recibido, ' + fila.nombre.split(' ')[0] + '! La Dirección de Carrera de Relaciones Internacionales te contactará por correo o WhatsApp para iniciar la asesoría.');
     } catch (err) {
       console.error(err);
-      avisar('error', 'No se pudo enviar tu registro. Inténtalo de nuevo en unos minutos o escribe a rrii.fcj@uagrm.edu.bo adjuntando tu CV.');
+      respaldoCorreo();
     } finally {
       boton.disabled = false; boton.textContent = 'Enviar mi registro';
     }

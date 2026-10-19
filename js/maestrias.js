@@ -1,0 +1,53 @@
+/* Maestrias de REFERENCIA: lista oficial SISGP 2026/27 (si.se, publicada el 12-nov-2025).
+   La lista 2027/28 se publica el 13-nov-2026; al salir, se actualiza este archivo.
+   [area, programa, universidad, ciudad, anios, codigo, url] */
+window.AREAS = {
+  ri:  'Relaciones internacionales y ciencia política',
+  der: 'Derecho y derechos humanos',
+  adm: 'Administración, políticas públicas y gobernanza',
+  com: 'Comercio, economía y negocios internacionales',
+  des: 'Desarrollo y sostenibilidad'
+};
+window.MAESTRIAS = [
+  ['ri','International and European Relations','Linköping University','Linköping',2,'LIU-91003','https://liu.se/en/education/program/f7mer'],
+  ['ri','International Affairs','Linnaeus University','Växjö',2,'LNU-F3499','https://www.lnu.se/en/programme/international-affairs-master-programme/vaxjo-international-autumn/'],
+  ['ri','Political Science: Global Politics','Malmö University','Malmö',2,'MAU-71953','https://mau.se/en/study-education/programme/sasgp/'],
+  ['ri','European Affairs','Lund University','Lund',2,'LU-18430','https://www.lunduniversity.lu.se/study/european-affairs-master-of-science-programme-SAMEA'],
+  ['ri','Political Science','Stockholm University','Estocolmo',2,'SU-42000','https://www.su.se/english/education/course-catalogue/st/stveo'],
+  ['ri','Political Science','Umeå University','Umeå',2,'UMU-M2076','https://www.umu.se/en/education/programmes/masters-programme-in-political-science/'],
+  ['ri','Political Science (MaPS)','University of Gothenburg','Gotemburgo',2,'GU-76061','https://www.gu.se/en/study-gothenburg/masters-program-in-political-science-s2psm'],
+  ['ri','International Administration and Global Governance','University of Gothenburg','Gotemburgo',2,'GU-76059','https://www.gu.se/en/study-gothenburg/masters-program-in-international-administration-and-global-governance-s2iam'],
+  ['ri','Peace and Conflict Studies','Uppsala University','Uppsala',2,'UU-M2061','https://www.uu.se/en/study/programme/masters-programme-peace-and-conflict-studies'],
+  ['ri','Crisis Management and Peacebuilding','Umeå University','Umeå',2,'UMU-M2030','https://www.umu.se/en/education/programmes/masters-programme-in-crisis-management-and-peacebuilding/'],
+  ['ri','International Migration and Ethnic Relations','Malmö University','Malmö',2,'MAU-71952','https://mau.se/en/study-education/programme/saimx/'],
+  ['ri','Ethnic and Migration Studies','Linköping University','Norrköping',2,'LIU-91014','https://liu.se/en/education/program/f7mem'],
+  ['der','Human Rights Studies','Lund University','Lund',2,'LU-18630','https://www.lunduniversity.lu.se/study/human-rights-studies-masters-programme-HAMRS'],
+  ['der','International Human Rights Law','Lund University','Lund',2,'LU-18305','https://www.lunduniversity.lu.se/study/international-human-rights-law-master-programme-JAMR%C3%84'],
+  ['der','Sociology of Law','Lund University','Lund',2,'LU-18475','https://www.lunduniversity.lu.se/study/sociology-of-law-master-of-science-programme-SASOL'],
+  ['der','European Economic Law','Lund University','Lund',2,'LU-18306','https://www.lunduniversity.lu.se/study/european-economic-law-masters-programme-JAEER'],
+  ['der','European and International Trade and Tax Law','Lund University','Lund',1,'LU-18240','https://www.lunduniversity.lu.se/study/european-and-international-trade-and-tax-law-masters-programme-EAEIT'],
+  ['der','Environmental Law (LL.M.)','Stockholm University','Estocolmo',1,'SU-29002','https://www.su.se/english/education/course-catalogue/je/jel1m'],
+  ['der','Investment Treaty Arbitration (LL.M.)','Uppsala University','Uppsala',1,'UU-M2850','https://www.uu.se/en/study/programme/masters-programme-investment-treaty-arbitration'],
+  ['der','Media, Democracy and Human Rights','Linnaeus University','Kalmar (o a distancia)',2,'LNU-F3504','https://www.lnu.se/en/programme/media-democracy-and-human-rights-master-programme/kalmar-international-autumn/'],
+  ['adm','Welfare Policies and Management','Lund University','Lund',2,'LU-18485','https://www.lunduniversity.lu.se/study/welfare-policies-and-management-master-of-science-programme-SAWEM'],
+  ['adm','Environmental Management and Policy','Lund University','Lund',2,'LU-18800','https://www.lunduniversity.lu.se/study/environmental-management-and-policy-masters-programme-XAMIS'],
+  ['adm','Public Planning for Sustainable Development','Örebro University','Örebro',1,'ORU-M1701','https://www.oru.se/english/study/master-students/masters-programmes/masters-programme-in-public-planning-for-sustainable-development/'],
+  ['adm','Health Economics, Policy and Management','Karolinska Institutet','Estocolmo',2,'KI-D1004','https://education.ki.se/bachelors-masters-studies/programmes-and-courses/masters-programme-in-health-economics-policy-and-management'],
+  ['adm','Leadership for Sustainability','Malmö University','Malmö',1,'MAU-74952','https://mau.se/en/study-education/programme/salsu/'],
+  ['adm','Management, Organization and Society','Stockholm University','Estocolmo',2,'SU-31065','https://www.su.se/english/education/course-catalogue/sm/smoso'],
+  ['com','Economics','Lund University','Lund',2,'LU-18250','https://www.lunduniversity.lu.se/study/economics-masters-programme-two-years-EAECO'],
+  ['com','Economics','Stockholm University','Estocolmo',2,'SU-33018','https://www.su.se/english/education/course-catalogue/sn/sneko'],
+  ['com','Business and Management: International Business','Uppsala University','Uppsala',2,'UU-M2111','https://www.uu.se/en/study/programme/masters-programme-business-and-management-international-business'],
+  ['com','International Strategic Management','Lund University','Lund',1,'LU-18220','https://www.lunduniversity.lu.se/study/international-strategic-management-masters-programme-one-year-EAGIS'],
+  ['com','Entrepreneurship and Innovation','Lund University','Lund',1,'LU-18210','https://www.lunduniversity.lu.se/study/entrepreneurship-and-innovation-masters-programme-one-year-EAGEI'],
+  ['com','Business Innovation','Stockholm School of Economics','Estocolmo',2,'HHS-34011','https://www.hhs.se/education/master/business-innovation/'],
+  ['com','Global Development, Population and Economic Change','Lund University','Lund',2,'LU-18290','https://www.lunduniversity.lu.se/study/global-development-population-and-economic-change-masters-programme-two-years-EAEGD'],
+  ['des','Development Studies','Lund University','Lund',2,'LU-18404','https://www.lunduniversity.lu.se/study/development-studies-master-of-science-programme-SADES'],
+  ['des','International Development and Management','Lund University','Lund',2,'LU-18425','https://www.lunduniversity.lu.se/study/international-development-and-management-master-of-science-programme-SAMDE'],
+  ['des','Environmental Studies and Sustainability Science','Lund University','Lund',2,'LU-18410','https://www.lunduniversity.lu.se/study/environmental-studies-and-sustainability-science-master-of-science-programme-SAESS'],
+  ['des','Disaster Risk Management and Climate Change Adaptation','Lund University','Lund',2,'LU-18905','https://www.lunduniversity.lu.se/study/disaster-risk-management-and-climate-change-adaptation-masters-programme-TAKAK'],
+  ['des','Sustainable Development','Uppsala University','Uppsala',2,'UU-M1860','https://www.uu.se/en/study/programme/masters-programme-sustainable-development'],
+  ['des','Globalization, Environment and Social Change','Stockholm University','Estocolmo',2,'SU-32046','https://www.su.se/english/education/course-catalogue/sg/sgmfo'],
+  ['des','Global Studies: Sustainable Societies and Social Change','Jönköping University','Jönköping',2,'HJ-MU129','https://ju.se/en/study-at-ju/our-programmes/master-programmes/global-studies-sustainable-societies-and-social-change-two-years-autumn-2027-mu129.html'],
+  ['des','Science for Sustainable Development','Linköping University','Linköping',2,'LIU-91005','https://liu.se/en/education/program/f7msu']
+];

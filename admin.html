@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Registros Becas Suecia</title>
+<link rel="icon" href="img/globo.png">
+<link rel="stylesheet" href="css/estilo.css">
+<style>
+  .panel{margin:24px auto 48px}
+  .tabla{width:100%;border-collapse:collapse;font-size:.9rem;background:#fff}
+  .tabla th,.tabla td{border-bottom:1px solid var(--linea);padding:8px 10px;text-align:left;vertical-align:top}
+  .tabla th{background:var(--azul-noche);color:#fff;position:sticky;top:0}
+  .rueda{overflow-x:auto;border:1px solid var(--linea);border-radius:12px;max-height:70vh}
+  .barra-p{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+  .login{max-width:420px}
+  details summary{cursor:pointer;color:var(--azul);font-weight:700}
+</style>
+</head>
+<body>
+<div class="barra"><div class="envoltura"><span><b>Panel privado</b> · Dirección de Carrera de Relaciones Internacionales</span><span><a href="./" style="color:#fff">Volver al portal</a></span></div></div>
+<div class="cinta"></div>
+<main class="envoltura panel">
+  <h1 style="color:var(--azul-hondo)">Registros: Becas SI Suecia 2027/2028</h1>
+
+  <section id="v-login" class="hilo login" style="margin-top:16px">
+    <div class="hilo-cuerpo">
+      <h2>Iniciar sesión</h2>
+      <p>Usa una cuenta de <b>administrador</b> del staff de InterMUN (las mismas credenciales del panel de InterMUN).</p>
+      <form id="f-login">
+        <div class="campo"><label for="u">Correo</label><input id="u" type="email" autocomplete="username" required></div>
+        <div class="campo"><label for="p">Contraseña</label><input id="p" type="password" autocomplete="current-password" required style="width:100%;padding:12px 13px;border:1px solid #b9c1d8;border-radius:10px;font:inherit;min-height:48px"></div>
+        <button class="boton azul" type="submit">Entrar</button>
+        <div class="estado" id="e-login" role="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="v-datos" hidden>
+    <div class="barra-p">
+      <b id="total">0 registros</b>
+      <button class="boton azul" id="b-recargar" type="button">Actualizar</button>
+      <button class="boton rojo" id="b-csv" type="button">Descargar Excel (CSV)</button>
+      <button class="boton" id="b-salir" type="button" style="border-color:var(--linea)">Cerrar sesión</button>
+    </div>
+    <div class="estado" id="e-datos" role="status"></div>
+    <div class="rueda"><table class="tabla"><thead><tr>
+      <th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Vínculo / unidad</th><th>Formación</th><th>Experiencia / inglés</th><th>Áreas</th><th>Detalle</th><th>CV</th>
+    </tr></thead><tbody id="filas"></tbody></table></div>
+  </section>
+</main>
+<script src="js/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var cfg=window.SUECIA_CFG, sb=supabase.createClient(cfg.url,cfg.anon);
+  var datos=[];
+  function aviso(id,t,x){var e=$(id);e.className='estado '+t;e.textContent=x}
+  function td(tr,txt){var c=document.createElement('td');c.textContent=txt||'';tr.appendChild(c);return c}
+
+  async function cargar(){
+    aviso('e-datos','info','Cargando...');
+    var r=await sb.from(cfg.tabla).select('*').order('creado',{ascending:false});
+    if(r.error){aviso('e-datos','error','No se pudo leer: '+r.error.message+'. ¿La cuenta es de administrador?');return}
+    datos=r.data; $('e-datos').className='estado';
+    $('total').textContent=datos.length+(datos.length===1?' registro':' registros');
+    var tb=$('filas'); tb.textContent='';
+    datos.forEach(function(d){
+      var tr=document.createElement('tr');
+      td(tr,new Date(d.creado).toLocaleString('es-BO',{timeZone:'America/La_Paz'}));
+      td(tr,d.nombre+(d.ci?' · CI '+d.ci:''));
+      td(tr,d.correo+' · '+d.celular);
+      td(tr,d.vinculo+' · '+d.unidad);
+      td(tr,d.grado+(d.titulo?' · '+d.titulo:''));
+      td(tr,d.anios_trabajo+' · '+d.ingles);
+      td(tr,(d.areas||[]).join('; '));
+      var c=td(tr,'');
+      if(d.liderazgo||d.comentario){var det=document.createElement('details');det.innerHTML='<summary>Ver</summary><p><b>Liderazgo:</b> <span class="l"></span></p><p><b>Consulta:</b> <span class="c"></span></p>';det.querySelector('.l').textContent=d.liderazgo||'';det.querySelector('.c').textContent=d.comentario||'';c.appendChild(det)}
+      var cv=td(tr,''); var b=document.createElement('button');b.type='button';b.className='boton azul';b.style.minHeight='36px';b.style.padding='6px 12px';b.textContent='Abrir CV';
+      b.onclick=async function(){var s=await sb.storage.from(cfg.bucket).createSignedUrl(d.cv_ruta,600);if(s.error){alert('No se pudo abrir: '+s.error.message);return}window.open(s.data.signedUrl,'_blank','noopener')};
+      cv.appendChild(b); tb.appendChild(tr);
+    });
+  }
+  function csv(){
+    var cols=['creado','nombre','ci','correo','celular','vinculo','unidad','grado','titulo','anios_trabajo','ingles','areas','liderazgo','comentario','cv_ruta'];
+    var q=function(v){v=Array.isArray(v)?v.join('; '):(v==null?'':String(v));return '"'+v.replace(/"/g,'""')+'"'};
+    var t='﻿'+cols.join(';')+'\n'+datos.map(function(d){return cols.map(function(k){return q(d[k])}).join(';')}).join('\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv;charset=utf-8'}));a.download='registros-becas-suecia.csv';a.click();
+  }
+  async function mostrar(){var s=(await sb.auth.getSession()).data.session;$('v-login').hidden=!!s;$('v-datos').hidden=!s;if(s)cargar()}
+  $('f-login').addEventListener('submit',async function(e){e.preventDefault();aviso('e-login','info','Verificando...');
+    var r=await sb.auth.signInWithPassword({email:$('u').value.trim(),password:$('p').value});
+    if(r.error){aviso('e-login','error','Correo o contraseña incorrectos.');return} mostrar()});
+  $('b-recargar').onclick=cargar; $('b-csv').onclick=csv;
+  $('b-salir').onclick=async function(){await sb.auth.signOut();mostrar()};
+  mostrar();
+})();
+</script>
+</body>
+</html>
